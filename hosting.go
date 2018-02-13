@@ -1,11 +1,11 @@
 package main 
 
 type Hosting struct {
-	id int			
-	name string
-	cores int
-	memory int		
-	disc int
+	id int			`json:"id"`	
+	name string		`json:"name"`
+	cores int		`json:"cores"`
+	memory int		`json:"memory"`	
+	disc int		`json:"disc"`
 }
 
 type Hostings []Hosting
