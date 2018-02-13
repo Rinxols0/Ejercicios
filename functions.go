@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 import "net/http"
-//import "log"
+import "log"
 //import "github.com/gorilla/mux"
 import "encoding/json"
 import "gopkg.in/mgo.v2"
@@ -24,6 +24,15 @@ func getSession() *mgo.Session {   //devuelve un tipo mgo.Session, de la libreri
 
 //Funcion devuelve un objeto Hosting
 func responseHosting(w http.ResponseWriter, status int, results Hosting) {
+	w.Header().Set("Content-type", "application/json")
+	//respuesta http
+	w.WriteHeader(200)
+	//Escribo estado, 200 ok
+	json.NewEncoder(w).Encode(results)
+	//devolvemos objeto
+}
+//Funcion devuelve una colleccion de objetos Hosting
+func responseHostings(w http.ResponseWriter, status int, results []Hosting) {
 	w.Header().Set("Content-type", "application/json")
 	//respuesta http
 	w.WriteHeader(200)
@@ -64,4 +73,20 @@ func HostingAdd(w http.ResponseWriter, r *http.Request){
 
 	responseHosting(w, 200, hosting_data)
 	
+}
+
+func HostingList(w http.ResponseWriter, r *http.Request){
+	fmt.Fprintf(w, "Listado de Hostings") //imprime en web
+
+	var results []Hosting
+
+	err:= collection.Find(nil).All(&results)
+
+	if err != nil{
+		log.Fatal(err)
+	}else{
+		fmt.Println( results)  //imprime en consola
+	}
+
+	responseHostings(w, 200, results)
 }
