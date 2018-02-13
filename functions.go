@@ -4,7 +4,7 @@ import "fmt"
 import "net/http"
 //import "log"
 //import "github.com/gorilla/mux"
-//import "encoding/json"
+import "encoding/json"
 import "gopkg.in/mgo.v2"
 //import "gopkg.in/mgo.v2/bson"
 
@@ -22,10 +22,46 @@ func getSession() *mgo.Session {   //devuelve un tipo mgo.Session, de la libreri
 	return session //devuelve la sesión de mongodb
 }
 
+//Funcion devuelve un objeto Hosting
+func responseHosting(w http.ResponseWriter, status int, results Hosting) {
+	w.Header().Set("Content-type", "application/json")
+	//respuesta http
+	w.WriteHeader(200)
+	//Escribo estado, 200 ok
+	json.NewEncoder(w).Encode(results)
+	//devolvemos objeto
+}
+
 var collection = getSession().DB("APIrestDB").C("hostings")
 //añado a variable collection la invocación a la función que 
 //inicia la sesión con la bbdd, indicando la bbdd y la coleccion
 
 func Index(w http.ResponseWriter, r *http.Request){
 	fmt.Fprintf(w, "Hola mundo desde mi servidor web")
+}
+
+func HostingAdd(w http.ResponseWriter, r *http.Request){
+	decoder := json.NewDecoder(r.Body) //recibe los datos que llegan por post
+
+	var hosting_data Hosting
+	err := decoder.Decode(&hosting_data)
+
+	if (err != nil){
+		panic(err)
+	}
+
+	defer r.Body.Close()  //Cerrar/limpiar la lectura
+
+	err=collection.Insert(hosting_data) 
+	//le decimos a la variable que tiene la sesión que inserte
+	//los datos 
+
+	if err !=nil{
+		w.WriteHeader(500)
+		return
+	}
+
+
+	responseHosting(w, 200, hosting_data)
+	
 }
