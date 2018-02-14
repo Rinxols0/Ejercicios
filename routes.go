@@ -41,5 +41,17 @@ var routes = Routes{
 		"/hosting",
 		HostingAdd,
 	},
+	Route {
+		"HostingList",
+		"GET",
+		"/hostings",
+		HostingList,		
+	},
+	Route {
+		"HostingUpdate",
+		"PUT",
+		"/hosting/{id}",
+		HostingUpdate,		
+	},
 	
 }
