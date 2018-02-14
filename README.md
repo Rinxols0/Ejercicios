@@ -1,3 +1,17 @@
+Proposed exercises
+
+Exercise 1
+
+   It is made using php
+
+Exercise 2
+
+  It is made by Go, I chose this language to be very similar to C ++. With Mongo DB database. I use the libraries Morilla Mux, router that   allows to work with http and with the routes. It is composed of four files: main.go which is the main file, hosting.go where I declare     the struct hosting and the hosting array, routes.go where I declare the routes with which to work, functions.go where I declared the       functions to work .
+
+  I use the Robo 3T application to visualize the changes in the database and Postman to send the parameters by POST, GET or PUT.
+  
+--------------------------------------------------------------------------------------------------------------------------------------
+
 Ejercicios propuestos 
 
 Ejercicio 1
