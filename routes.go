@@ -53,5 +53,11 @@ var routes = Routes{
 		"/hosting/{id}",
 		HostingUpdate,		
 	},
+	Route {
+		"HostingRemove",
+		"DELETE",
+		"/hosting/{id}",
+		HostingRemove,		
+	},
 	
 }

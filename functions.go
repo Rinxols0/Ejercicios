@@ -129,3 +129,29 @@ func HostingUpdate(w http.ResponseWriter, r *http.Request){
 	}
 	responseHosting(w, 200, hosting_data)
 }
+type Message struct {
+	Status string	`json:"status"`
+	Message string	`json:"message"`
+}
+
+func HostingRemove(w http.ResponseWriter, r *http.Request){
+	params:= mux.Vars(r)  //recogemos parametros por url 
+	hosting_id := params["id"]
+
+	if !bson.IsObjectIdHex(hosting_id){
+		w.WriteHeader(404)
+		return
+	}
+
+	oid:= bson.ObjectIdHex(hosting_id)
+
+	err:= collection.RemoveId(oid)
+
+	if err != nil {
+		w.WriteHeader(404)
+		return
+	}
+	results := Message {"success", "El hosting con id " + hosting_id + "ha sido borrado"}
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(results)
+}
